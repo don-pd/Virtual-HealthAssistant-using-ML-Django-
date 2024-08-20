@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Virtual Health Assistant</title>
+</head>
+<body>
+    <h1>Enter Your Symptoms</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="fever">Fever:</label>
+        <input type="number" name="fever" id="fever" value="0"><br>
+        <label for="cough">Cough:</label>
+        <input type="number" name="cough" id="cough" value="0"><br>
+        <label for="fatigue">Fatigue:</label>
+        <input type="number" name="fatigue" id="fatigue" value="0"><br>
+        <label for="runny_nose">Runny Nose:</label>
+        <input type="number" name="runny_nose" id="runny_nose" value="0"><br>
+        <label for="sneezing">Sneezing:</label>
+        <input type="number" name="sneezing" id="sneezing" value="0"><br>
+        <label for="itchy_eyes">Itchy Eyes:</label>
+        <input type="number" name="itchy_eyes" id="itchy_eyes" value="0"><br>
+        <label for="headache">Headache:</label>
+        <input type="number" name="headache" id="headache" value="0"><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
