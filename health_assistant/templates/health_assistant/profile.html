@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 600px; /* Set a maximum width for the container */
+        margin: 20px auto; /* Center the container */
+        padding: 20px; /* Add padding inside the container */
+        background-color: #ffffff; /* White background for the container */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        border-radius: 8px; /* Rounded corners */
+    }
+
+    h2 {
+        text-align: center; /* Center the main heading */
+        color: #343a40; /* Dark gray color for the heading */
+        margin-bottom: 20px; /* Space below the heading */
+    }
+
+    h3 {
+        color: #495057; /* Slightly lighter gray for subheadings */
+        margin-top: 20px; /* Space above subheadings */
+    }
+
+    p {
+        font-size: 1.1em; /* Slightly larger font size for paragraph text */
+        line-height: 1.5; /* Improve line height for readability */
+        margin-bottom: 15px; /* Space below each paragraph */
+    }
+
+    strong {
+        color: #007bff; /* Blue color for strong text (labels) */
+    }
+
+    a {
+        display: inline-block; /* Make the link block-level for better spacing */
+        margin-top: 20px; /* Space above the link */
+        padding: 10px 15px; /* Padding around the link text */
+        background-color: #007bff; /* Blue background for the button-like link */
+        color: white; /* White text color */
+        border-radius: 5px; /* Rounded corners for the link */
+        text-decoration: none; /* Remove underline from link */
+        transition: background-color 0.3s ease; /* Smooth transition on hover */
+    }
+
+    a:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    .profile-picture {
+        max-width: 150px; /* Limit profile picture size */
+        border-radius: 50%; /* Make it circular if it's an image */
+        margin-bottom: 15px; /* Space below image */
+    }
+</style>
+
+<div class="container">
+    <h2>Profile Information</h2>
+    
+    <h3>User Information</h3>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <h3>Profile Information</h3>
+    <p><strong>Full Name:</strong> {% if profile.full_name %}{{ profile.full_name }}{% else %}Not provided{% endif %}</p>
+    <p><strong>Bio:</strong> {% if profile.bio %}{{ profile.bio }}{% else %}Not provided{% endif %}</p>
+    <p><strong>Location:</strong> {% if profile.location %}{{ profile.location }}{% else %}Not provided{% endif %}</p>
+    <p><strong>Birth Date:</strong> {% if profile.birth_date %}{{ profile.birth_date|date:"F j, Y" }}{% else %}Not provided{% endif %}</p>
+    
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+    {% else %}
+        <p>No profile picture available.</p>
+    {% endif %}
+    
+    <a href="{% url 'edit_profile' %}">Edit Profile</a> <!-- Link to an edit view if needed -->
+</div>
+{% endblock %}

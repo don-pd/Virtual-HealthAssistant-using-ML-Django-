@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Diagnosis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .loader {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            color: red;
+            margin-top: 15px;
+            
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Symptom Diagnosis</h1>
+
+    <form id="diagnosis-form" method="POST">
+        {% csrf_token %}
+        <label for="name">Enter your name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <!-- Removed hidden input for patient ID as it is not needed for diagnosis -->
+        <button type="submit">Diagnose</button>
+        <div class="loader"></div>
+        <div class="error">{{ error_message }}</div>
+    </form>
+
+    <div class="result" id="result">
+        {% if result %}
+            Diagnosis Result: {{ result }}
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("diagnosis-form");
+            const nameInput = document.getElementById("name");
+            const submitButton = form.querySelector("button");
+            const loader = document.querySelector(".loader");
+            const resultDiv = document.getElementById("result");
+            const errorDiv = document.querySelector(".error");
+
+            // Real-time validation for the name field
+            nameInput.addEventListener("input", function () {
+                if (nameInput.value.length < 3) {
+                    showError("Name must be at least 3 characters.");
+                    submitButton.disabled = true;
+                } else {
+                    clearError();
+                    submitButton.disabled = false;
+                }
+            });
+
+            // Show a loading spinner when submitting
+            form.addEventListener("submit", function (e) {
+                loader.style.display = "inline-block";  // Show loader on submit
+                submitButton.disabled = true;           // Disable button to prevent multiple submits
+            });
+
+        });
+
+        function showError(message) {
+            errorDiv.textContent = message;  // Display the error message
+        }
+
+        function clearError() {
+            errorDiv.textContent = "";  // Clear the error message
+        }
+    </script>
+
+</body>
+</html>
+{% endblock %}

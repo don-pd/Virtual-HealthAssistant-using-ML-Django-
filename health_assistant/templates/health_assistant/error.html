@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .error-message {
+            color: red;
+            font-size: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-message">
+        <h1>An Error Occurred</h1>
+        <p>{{ message }}</p>
+    </div>
+    <a class="back-link" href="{% url 'diagnose' %}">Go Back to Diagnosis</a>
+</body>
+</html>

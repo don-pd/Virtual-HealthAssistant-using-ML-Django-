@@ -1,27 +1,138 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+
+{% block content %}
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Health Assistant</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("{% static 'health_assistant/images/health.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+    
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            margin: 40px 0; /* Creates gap at the top and bottom */
+        }
+    
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0275d8;
+        }
+    
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+    
+        .btn {
+            width: 48%;
+            background-color: #0275d8;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+        }
+    
+        .btn:hover {
+            background-color: #0256a3;
+        }
+
+        button {
+            width: 100%;
+            background-color: #0275d8;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    
+        button:hover {
+            background-color: #0256a3;
+        }
+    
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+    
 </head>
 <body>
-    <h1>Enter Your Symptoms</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="fever">Fever:</label>
-        <input type="number" name="fever" id="fever" value="0"><br>
-        <label for="cough">Cough:</label>
-        <input type="number" name="cough" id="cough" value="0"><br>
-        <label for="fatigue">Fatigue:</label>
-        <input type="number" name="fatigue" id="fatigue" value="0"><br>
-        <label for="runny_nose">Runny Nose:</label>
-        <input type="number" name="runny_nose" id="runny_nose" value="0"><br>
-        <label for="sneezing">Sneezing:</label>
-        <input type="number" name="sneezing" id="sneezing" value="0"><br>
-        <label for="itchy_eyes">Itchy Eyes:</label>
-        <input type="number" name="itchy_eyes" id="itchy_eyes" value="0"><br>
-        <label for="headache">Headache:</label>
-        <input type="number" name="headache" id="headache" value="0"><br>
-        <button type="submit">Submit</button>
-    </form>
+    
+    <div class="overlay">
+        <h1>Enter Your Symptoms</h1>
+
+        
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="fever">Fever:</label>
+            <input type="number" name="fever" id="fever" value="0" min="0">
+
+            <label for="cough">Cough:</label>
+            <input type="number" name="cough" id="cough" value="0" min="0">
+
+            <label for="fatigue">Fatigue:</label>
+            <input type="number" name="fatigue" id="fatigue" value="0" min="0">
+
+            <label for="runny_nose">Runny Nose:</label>
+            <input type="number" name="runny_nose" id="runny_nose" value="0" min="0">
+
+            <label for="sneezing">Sneezing:</label>
+            <input type="number" name="sneezing" id="sneezing" value="0" min="0">
+
+            <label for="itchy_eyes">Itchy Eyes:</label>
+            <input type="number" name="itchy_eyes" id="itchy_eyes" value="0" min="0">
+
+            <label for="headache">Headache:</label>
+            <input type="number" name="headache" id="headache" value="0" min="0">
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="footer">
+            <p>Powered by Virtual Health Assistant</p>
+        </div>
+    </div>
 </body>
-</html>
+{% endblock %}

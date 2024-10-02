@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+ h2 {
+    text-align: center;
+    color: #343a40;
+    margin-top: 30px;
+}
+
+form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    text-align: center;
+    margin: 10px 0;
+    color: #dc3545; /* Bootstrap danger color */
+}
+
+p {
+    text-align: center;
+}
+
+.description {
+    font-size: 0.9em;
+    color: #6c757d; /* Bootstrap secondary color */
+}
+
+.field {
+    margin-bottom: 15px; /* Increased spacing for better readability */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    padding: 10px; /* Increased padding for better touch target */
+    border-radius: 5px;
+    border: 1px solid #ced4da; /* Bootstrap border color */
+    transition: border-color 0.3s ease; /* Smooth transition for focus effect */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+</style>
+</head>
+<body>
+    <h2>Register</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}    
+        
+            
+                <div class="field">
+                    {{ form.username.label_tag }}<br>
+                    {{ form.username }}
+                    {{ form.username.errors }}  <!-- Display username errors -->
+                </div>
+            
+                <div class="field">
+                    {{ form.email.label_tag }}<br>
+                    {{ form.email }}
+                    {{ form.email.errors }}  <!-- Display email errors -->
+                </div>
+            
+                <div class="field">
+                    {{ form.password1.label_tag }}<br>
+                    {{ form.password1 }}
+                    {{ form.password1.errors }}  <!-- Display password1 errors -->
+                </div>
+            
+                <div class="field">
+                    {{ form.password2.label_tag }}<br>
+                    {{ form.password2 }}
+                    {{ form.password2.errors }}  <!-- Display password2 errors -->
+                </div>
+          
+                <div class="field">
+                    {{ form.user_type.label_tag }}<br>
+                    {{ form.user_type }}  <!-- Dropdown for Doctor or Patient -->
+                    {{ form.user_type.errors }}  <!-- Display user_type errors -->
+                </div>
+            
+        <button type="submit">Register</button>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
+{% endblock %}
