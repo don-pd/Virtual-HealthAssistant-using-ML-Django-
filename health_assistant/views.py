@@ -60,16 +60,17 @@ def register(request):
     return render(request, 'health_assistant/register.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
-
 def profile_view(request):
-    # Get the user and their profile
-    user = request.user
-    profile = user.profile  # Assuming a OneToOne relationship with User
+    if request.user.is_authenticated:
+        # Get the user and their profile if logged in
+        user = request.user
+        profile = user.profile  # Assuming a OneToOne relationship with User
+        return render(request, 'health_assistant/profile.html', {'user': user, 'profile': profile})
+    else:
+        # Handle unauthenticated users by redirecting or showing a different message
+        messages.error(request, "You need to be logged in to view your profile.")
+        return redirect('login')
 
-    return render(request, 'health_assistant/profile.html', {
-        'user': user,
-        'profile': profile,
-    })
 
 def edit_profile(request):
     return redirect('profile')
@@ -100,14 +101,13 @@ def all_patients_view(request):
     # Render the patient list for the doctor
     return render(request, 'health_assistant/all_patient.html', {'patients': patients})
 
-
 def diagnose(request):
     result = None  # Variable to store the diagnosis result
     error_message = None  # Variable to store any error message
 
     if request.method == 'POST':
-        # Get patient name from form, default to the logged-in user's username
-        patient_name = request.POST.get('name', request.user.username)
+        # Get patient name from form, if available, or use "Guest" for anonymous users
+        patient_name = request.POST.get('name', 'Guest')
 
         # Get the voice input and process it
         speech_text = speech_to_text()  # This function will handle audio input from the microphone
@@ -116,20 +116,17 @@ def diagnose(request):
             symptoms = extract_symptoms(speech_text)
             predicted_diseases = predict_disease(symptoms)
 
-            # Debugging information
-            print(f"Extracted symptoms: {symptoms}")
-            print(f"Predicted diseases: {predicted_diseases}")
-
             # Convert predicted diseases to a comma-separated string
             predicted_disease_str = ', '.join(predicted_diseases)
 
-            # Save the diagnosis to the database
-            patient = Patient.objects.create(
-                user=request.user,
-                name=patient_name,
-                symptoms=speech_text,
-                predicted_disease=predicted_disease_str
-            )
+            # Only save the diagnosis to the database if the user is authenticated
+            if request.user.is_authenticated:
+                patient = Patient.objects.create(
+                    user=request.user,
+                    name=patient_name,
+                    symptoms=speech_text,
+                    predicted_disease=predicted_disease_str
+                )
 
             # Store the diagnosis result to display on the same page
             result = predicted_disease_str
